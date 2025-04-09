@@ -15,7 +15,7 @@ const express = require('express');
     console.log('Loaded JWT_SECRET:', process.env.JWT_SECRET); 
 
     const app = express();
-    const port = 3000; // Define the port number once
+    const port = 3306; // Define the port number once
 
     app.use(bodyParser.json());
     app.use(express.static(path.join(__dirname, 'public')));
@@ -51,10 +51,10 @@ const express = require('express');
     );
     // MySQL database connection
     const db = mysql.createPool({
-        host: 'localhost',
-        user: 'root',
-        password:'sahil',
-        database: 'kisanbazaar',
+        host: 'bvbtru7fvjjrotuq7qvi-mysql.services.clever-cloud.com',
+        user: 'uemwefbcmzo0ggq0',
+        password:'voF8IQDegUIIpUSTr1Gb',
+        database: 'bvbtru7fvjjrotuq7qvi',
         waitForConnections: true,
         connectionLimit: 10,
         queueLimit: 0
