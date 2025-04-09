@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password - Kisan Bazaar</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #e1f5fe, #bbdefb); /* Soft gradient background */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+            margin: 0;
+            color: #333;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Form Box Styles */
+        .form-box {
+            background: rgba(255, 255, 255, 0.9); /* Light white background with opacity */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Heading Styles */
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            color: #4a90e2; /* Light blue color */
+            cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        h1:hover {
+            color: #357ABD; /* Darker blue on hover */
+            transform: scale(1.05);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Input Group Styles */
+        .input-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .input-group label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            color: #555; /* Dark gray for labels */
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background: #fff;
+            color: #333;
+            font-size: 1em;
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-group input:focus {
+            background: #f5f5f5;
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+            outline: none;
+        }
+
+        /* Submit Button Styles */
+        #submit {
+            background: #4a90e2; /* Light blue background */
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #submit:hover {
+            background: #357ABD; /* Darker blue on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        #submit:active {
+            transform: translateY(1px);
+        }
+
+        /* Link Styles */
+        p {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        a {
+            color: #4a90e2; /* Light blue color */
+            text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        a:hover {
+            color: #357ABD; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+
+        /* Keyframes for Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+            <h1>Reset Password</h1>
+            <form id="resetPasswordForm">
+                <input type="hidden" id="token" value=""> <!-- Token will be set by JavaScript -->
+                <div class="input-group">
+                    <label for="password">New Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <input type="submit" id="submit" value="Reset Password">
+            </form>
+            <p><a href="/Login.html">Back to Login</a></p>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            if (token) {
+                document.getElementById('token').value = token;
+            } else {
+                alert('Invalid or missing token.');
+                window.location.href = '/Login.html'; // Redirect to login if no token
+            }
+        });
+
+        document.getElementById('resetPasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = document.getElementById('token').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch(`/api/users/reset-password/${token}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+
+            if (response.ok) {
+                alert('Password reset successfully. Redirecting to login page.');
+                window.location.href = '/login.html'; // Redirect to login page
+            } else {
+                const result = await response.text();
+                alert(result);
+            }
+        });
+    </script>
+</body>
+</html>

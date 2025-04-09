@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Bazaar</title>
+    <style>
+        
+        /* General body styles */
+        body {
+            font-family: Arial, sans-serif; /* Set font family to Arial */
+            overflow-x: hidden; /* Hide horizontal overflow */
+            font-synthesis: 15px; /* Deprecated property, remove if not needed */
+        }
+
+        /* Styles for anchor elements */
+        a {
+            text-decoration: none; /* Remove underline from links */
+        }
+
+        /* Container styles */
+        .container {
+            width: 1200px; /* Set fixed width */
+            margin: auto; /* Center the container */
+            max-width: 90%; /* Ensure it doesn't exceed 90% of viewport */
+            transition: transform 1s; /* Smooth transition for transforms */
+        }
+
+        /* Header styles */
+        header img {
+            width: 30px; /* Set width for header images */
+        }
+
+        /* Header layout */
+        header {
+            display: flex; /* Use flexbox for layout */
+            align-items: center; /* Center items vertically */
+            justify-content: space-between; /* Space items evenly */
+        }
+
+        /* Icon cart position */
+        header .iconCart {
+            position: relative; /* Relative positioning for child elements */
+            z-index: 1; /* Ensure it appears above other elements */
+        }
+
+        /* Total quantity display in header */
+        header .totalQuantity {
+            position: absolute; /* Absolute positioning within iconCart */
+            top: 0; /* Align to top */
+            right: 0; /* Align to right */
+            font-size: x-large; /* Increase font size */
+            background-color: #b31010; /* Red background */
+            width: 40px; /* Fixed width */
+            height: 40px; /* Fixed height */
+            color: #fff; /* White text color */
+            font-weight: bold; /* Bold text */
+            display: flex; /* Use flexbox for alignment */
+            justify-content: center; /* Center text horizontally */
+            align-items: center; /* Center text vertically */
+            border-radius: 50%; /* Circular shape */
+            transform: translateX(20px); /* Shift to the right */
+        }
+
+        /* Product list styling */
+        .listProduct {
+            display: grid; /* Use grid layout for products */
+            grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+            gap: 20px; /* Space between grid items */
+        }
+
+        /* Image styles for product items */
+        .listProduct .item img {
+            width: 20%; /* Full width of parent */
+            height: 20px; /* Fixed height */
+            object-fit: cover; /* Cover the area without distortion */
+        }
+
+        /* Individual product item styles */
+        .listProduct .item {
+            position: relative; /* Positioning context for absolute children */
+        }
+
+        /* Product title styles */
+        .listProduct .item h2 {
+            font-weight: 700; /* Bold font */
+            font-size: x-large; /* Increase font size */
+        }
+
+        /* Product price styles */
+        .listProduct .item .price {
+            font-size: x-large; /* Increase font size */
+        }
+
+        /* Button styles for product items */
+        .listProduct .item button {
+            position: absolute; /* Position relative to item */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            background-color: #e6572c; /* Button background color */
+            color: #fff; /* White text color */
+            width: 50%; /* Button width */
+            border: none; /* Remove border */
+            padding: 20px 30px; /* Padding for button */
+            box-shadow: 0 10px 50px #000; /* Shadow effect */
+            cursor: pointer; /* Pointer cursor on hover */
+            transform: translateX(-50%) translateY(100px); /* Initial position */
+            opacity: 0; /* Start invisible */
+        }
+
+        /* Button hover effect */
+        .listProduct .item:hover button {
+            transition: 0.5s; /* Smooth transition for hover */
+            opacity: 1; /* Make visible on hover */
+            transform: translateX(-50%) translateY(0); /* Move to center */
+        }
+
+        /* Cart styles */
+        .cart {
+            color: #fff; /* White text color */
+            position: fixed; /* Fixed position on screen */
+            width: 40px; /* Fixed width */
+            max-width: 80vw; /* Max width of 80% of viewport */
+            height: 50vh; /* Full viewport height */
+            background-color: #0E0F11; /* Dark background color */
+            top: 0px; /* Align to top */
+            right: -100%; /* Start off-screen */
+            display: grid; /* Use grid layout */
+            grid-template-rows: 50px 1fr 50px; /* Header, content, footer layout */
+            gap: 20px; /* Space between grid rows */
+            transition: right 1s; /* Smooth transition for right positioning */
+        }
+
+        /* Checkout button styles in cart */
+        .cart .buttons .checkout {
+            background-color: #E8BC0E; /* Yellow background */
+            color: #000; /* Black text color */
+        }
+
+        /* Cart header styles */
+        .cart h2 {
+            color: #E8BC0E; /* Yellow text color */
+            padding: 20px; /* Padding around header */
+            height: 30px; /* Fixed height */
+            margin: 0; /* Remove margin */
+        }
+
+        /* Cart item styles */
+        .cart .listCart .item {
+            display: grid; /* Grid layout for cart items */
+            grid-template-columns: 50px 1fr 70px; /* Image, info, quantity */
+            align-items: center; /* Center align items */
+            gap: 20px; /* Space between items */
+            margin-bottom: 20px; /* Space below items */
+        }
+
+        /* Image styles in cart */
+        .cart .listCart img {
+            width: 100%; /* Full width */
+            height: 70px; /* Fixed height */
+            object-fit: cover; /* Cover the area */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        /* Cart item name styles */
+        .cart .listCart .item .name {
+            font-weight: bold; /* Bold font */
+        }
+
+        /* Quantity display in cart items */
+        .cart .listCart .item .quantity {
+            display: flex; /* Flex layout */
+            justify-content: end; /* Align to end */
+            align-items: center; /* Center align */
+        }
+
+        /* Quantity span styles */
+        .cart .listCart .item .quantity span {
+            display: block; /* Block display */
+            width: 50px; /* Fixed width */
+            text-align: center; /* Center text */
+        }
+
+        /* Cart list styling */
+        .cart .listCart {
+            padding: 20px; /* Padding around cart */
+            overflow: auto; /* Allow scrolling */
+        }
+
+        /* Hide scrollbar for cart list */
+        .cart .listCart::-webkit-scrollbar {
+            width: 0; /* Hide scrollbar */
+        }
+
+        /* Button layout in cart */
+        .cart .buttons {
+            display: grid; /* Grid layout */
+            grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+            text-align: center; /* Center text */
+        }
+
+        /* Button styles in cart */
+        .cart .buttons div {
+            background-color: #000; /* Black background */
+            display: flex; /* Flex layout */
+            justify-content: center; /* Center content */
+            align-items: center; /* Center align */
+            font-weight: bold; /* Bold font */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+
+        /* Link styles in cart */
+        .cart .buttons a {
+            color: #fff; /* White text color */
+            text-decoration: none; /* Remove underline */
+        }
+
+        /* Checkout layout styling */
+        .checkoutLayout {
+            display: grid; /* Grid layout */
+            grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+            gap: 50px; /* Space between columns */
+            padding: 20px; /* Padding around layout */
+        }
+
+        /* Right section styles */
+        .checkoutLayout .right {
+            background-color: #5358B3; /* Light blue background */
+            border-radius: 20px; /* Rounded corners */
+            padding: 40px; /* Padding around section */
+            color: #fff; /* White text color */
+        }
+
+        /* Form layout in checkout */
+        .checkoutLayout .right .form {
+            display: grid; /* Grid layout */
+            grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+            gap: 20px; /* Space between form elements */
+            border-bottom: 1px solid #7a7fe2; /* Bottom border */
+            padding-bottom: 20px; /* Padding below */
+        }
+
+        /* Form header and first three elements styles */
+        .checkoutLayout .form h1,
+        .checkoutLayout .form .group:nth-child(-n+3) {
+            grid-column-start: 1; /* Span first column */
+            grid-column-end: 3; /* Span to third column */
+        }
+
+        /* Input and select styles in form */
+        .checkoutLayout .form input, 
+        .checkoutLayout .form select {
+            width: 100%; /* Full width */
+            padding: 10px 20px; /* Padding for input */
+            box-sizing: border-box; /* Include padding in width */
+            border-radius: 20px; /* Rounded corners */
+            margin-top: 10px; /* Margin above */
+            border: none; /* Remove border */
+            background-color: #6a6fc9; /* Light purple background */
+            color: #fff; /* White text color */
+        }
+
+        /* Return section styles */
+        .checkoutLayout .right .return .row {
+            display: flex; /* Flex layout */
+            justify-content: space-between; /* Space between elements */
+            align-items: center; /* Center align */
+            margin-top: 10px; /* Margin above */
+        }
+
+        /* Total amount styles */
+        .checkoutLayout .right .return .row div:nth-child(2) {
+            font-weight: bold; /* Bold font */
+            font-size: x-large; /* Increase font size */
+        }
+
+        /* Checkout button styles */
+        .buttonCheckout {
+            width: 100%; /* Full width */
+            height: 60px; /* Increased height for a bigger button */
+            border: none; /* Remove border */
+            border-radius: 20px; /* Rounded corners */
+            background-color: #49D8B9; /* Teal background */
+            margin-top: 20px; /* Margin above */
+            font-weight: bold; /* Bold font */
+            color: #fff; /* White text color */
+            cursor: pointer; /* Pointer cursor */
+        }
+
+        /* Center the button */
+        .buttonCheckout {
+            display: block;
+            margin: 20px auto; /* Center horizontally */
+        }
+
+        /* Header styles for return cart */
+        .returnCart h1 {
+            border-top: 1px solid #eee; /* Top border */
+            padding: 20px 0; /* Padding above and below */
+        }
+
+        /* Item styles in return cart */
+        .returnCart .list img {
+            width: 70px; /* Set the width you prefer */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: cover; /* Ensure images fit well */
+        }
+
+        /* Return cart item layout */
+        .returnCart .list .item {
+            display: grid; /* Grid layout */
+            grid-template-columns: 80px 1fr 50px 80px; /* Image, info, quantity, price */
+            align-items: center; /* Center align items */
+            gap: 20px; /* Space between items */
+            margin-bottom: 30px; /* Space below items */
+            padding: 0 10px; /* Padding left and right */
+            box-shadow: 0 10px 20px #5555; /* Shadow effect */
+            border-radius: 20px; /* Rounded corners */
+        }
+
+        /* Item name and return price styles */
+        .returnCart .list .item .name,
+        .returnCart .list .item .returnPrice {
+            font-size: large; /* Increase font size */
+            font-weight: bold; /* Bold font */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="checkoutLayout">
+            <div class="returnCart">
+                <a href="./addToCart.html">Back To Checkout</a>
+                <h1>List Product in Cart</h1>
+                <div class="list"></div>
+            </div>
+
+            <div class="right">
+                <h1>Checkout</h1>
+                <div class="form">
+                    <div class="group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required pattern="^[A-Za-z\s]+$">
+                    </div>
+                    <div class="group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" name="phone" id="phone">
+                    </div>
+                    <div class="group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>  
+                    <div class="group">
+                        <label for="address">Address</label>
+                        <input type="textarea" name="address" id="address" row="3">
+                    </div>
+                    
+                </div>
+                <div class="return">
+                    <div class="row">
+                        <div>Total Quantity</div>
+                        <div class="totalQuantity">0</div>
+                    </div>
+                    <div class="row">
+                        <div>Total Price</div>
+                        <div class="totalPrice">₹0</div>
+                    </div>
+                </div>
+                <button class="buttonCheckout" onclick="redirectToPayment()">PAY NOW</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+        async function redirectToPayment() {
+            // Get form values
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const address = document.getElementById('address').value.trim();
+        
+            // Assume totalQuantity and totalPrice are defined
+            const totalQuantity = document.querySelector('.totalQuantity').innerText;
+            const totalPrice = document.querySelector('.totalPrice').innerText.replace('₹', '');
+        
+            // Retrieve cart data from localStorage
+            let checkoutList = JSON.parse(localStorage.getItem('cart')) || {};
+        
+            // Validation logic
+            const namePattern = /^[A-Za-z\s]+$/; // Name should only contain letters and spaces
+            const phonePattern = /^[0-9]{10}$/;  // Phone number should be exactly 10 digits
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email validation pattern
+        
+            // Check if all fields are valid
+            if (!name.match(namePattern)) {
+                alert('Please enter a valid name (letters only).');
+                return;
+            }
+        
+            if (!phone.match(phonePattern)) {
+                alert('Please enter a valid 10-digit phone number.');
+                return;
+            }
+        
+            if (!email.match(emailPattern)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+        
+            if (!address) {
+                alert('Please enter your address.');
+                return;
+            }
+        
+            // Prepare the product details to send to the server
+          // Prepare the product details to send to the server
+const productDetails = Object.values(checkoutList).map(product => ({
+    name: product.name,
+    quantity: product.quantity,
+    price: product.price,
+    total: product.price * product.quantity
+}));
+
+        
+            // Proceed with API request if validation passes
+            try {
+                const response = await fetch('http://localhost:3000/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name,
+                        phone,
+                        email,
+                        address,
+                        totalQuantity,
+                        totalPrice,
+                        products: productDetails // Send the product details to the backend
+                    }),
+                });
+        
+                if (response.ok) {
+                    // Redirect to payment page after successful API call
+                    window.location.href = 'payment.html';
+                } else {
+                    alert('An error occurred. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        }
+        
+        
+        
+            
+                // Retrieve cart data
+                let checkoutList = JSON.parse(localStorage.getItem('cart')) || {};
+            
+                function displayCheckout() {
+                    const checkoutListHTML = document.querySelector('.list'); // Use the correct class
+                    let totalAmount = 0;
+                    let totalQuantity = 0;
+        
+                    if (Object.keys(checkoutList).length > 0) {
+                        Object.values(checkoutList).forEach(product => {
+                            const productTotal = product.price * product.quantity;
+                            totalAmount += productTotal;
+                            totalQuantity += product.quantity; // Count total quantity
+        
+                            checkoutListHTML.innerHTML += `
+                                <div>
+                                    <img src="${product.img}" alt="${product.name}">
+                                    <span>${product.name} - ₹${product.price} x ${product.quantity} = ₹${productTotal.toFixed(2)}</span>
+                                </div>`;
+                        });
+                    } else {
+                        checkoutListHTML.innerHTML = '<div>Your cart is empty.</div>';
+                    }
+        
+                    document.querySelector('.totalQuantity').innerText = totalQuantity; // Update total quantity
+                    document.querySelector('.totalPrice').innerText = `₹${totalAmount.toFixed(2)}`; // Update total price
+                }
+            
+                displayCheckout(); // Call the function to display the cart items
+            </script>
+            </body>
+
+            </html>

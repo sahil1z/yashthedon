@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Contact Page</title>
+</head>
+<body>
+    <!-- ========== Start Navbar ========== -->
+    <header class="section-navbar">
+        <section class="top_txt">
+            <div class="head container">
+                <div class="head_txt"></div>
+                <div class="sing_in_up">
+                    <a href="/login.html">LOGOUT</a>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="Second.html">
+                    <img src="./images/log.png" alt="Kisan Bazaar" class="logo" width="80%" height="auto" />
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li class="nav-item"><a href="Second.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="products.html" class="nav-link">Products</a></li>
+                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+         
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- ========== End Navbar ========== -->
+
+    <!-- ========== Start Contact Section ========== -->
+    <section class="section-contact">
+        <div class="container">
+            <h2 class="section-common--heading">Contact Us</h2>
+            <p class="section-common--subheading">Get in touch with us. We are always here to help you.</p>
+            <h1 align="center"><a href="Second.html" class="home-button">Home</a></h1>
+            <h1 align="center">Contact Us</h1>
+            <form id="contactForm">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter Name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="Enter Email">
+                
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" rows="5" required placeholder="How Can I Help You"></textarea>
+                
+                <button type="submit">Send Message</button>
+            </form>
+
+            <div class="contact-map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.2613173278896!2d73.91411937501422!3d18.562253982539413!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c147b8b3a3bf%3A0x6f7fdcc8e4d6c77e!2sPhoenix%20Marketcity%20Pune!5e0!3m2!1sen!2sin!4v1696124215167!5m2!1sen!2sin" width="100%" height="auto" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+    <!-- ========== End Contact Section ========== -->
+
+    <!-- ========== Start Footer Section ========== -->
+    <footer class="section-footer">
+        <script src="footer.js"></script>
+    </footer>
+    <!-- ========== End Footer Section ========== -->
+
+    <script type="module" src="/main.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('http://localhost:3000/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Your problem will be solved soon. Thank you!');
+                    this.reset(); // Reset form
+                } else {
+                    alert('There was an error. Please try again.');
+                }
+            })
+            .catch(error => {
+                alert('There was an error. Please try again.');
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

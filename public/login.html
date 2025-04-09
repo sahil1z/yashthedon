@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Kisan Bazaar</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="stylesheet" href="login.css">  
+</head>
+
+<body>
+    
+    <div class="box" id="loginForm">
+        <h1 id="loginHeader" onclick="refreshPage()">Kisan Bazaar</h1>
+        <form id="loginForm" onsubmit="loginUser(event)">
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <input type="submit" id="submit" value="Login">
+            <div id="text_show"></div>
+        </form>
+       <center><p><a href="Forget.html">Forgot Password?</a></p></center> 
+        <button class="btn-google" onclick="window.location.href='/auth/google'">
+            <img src="googlelogo.png" alt="Google Icon" width="24" height="24"> Login with Google
+        </button>
+        <center><p><a href="Signup.html">Don't have an account? Sign Up</a></p></center>
+        <br>
+
+    </div>
+    <script>
+        async function loginUser(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/users/Login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const token = result.token;
+                    localStorage.setItem('token', token);
+
+                    // Fetch user profile and store it in localStorage
+                    const profileResponse = await fetch('/api/users/profile', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (profileResponse.ok) {
+                        const profileData = await profileResponse.json();
+                        localStorage.setItem('userProfile', JSON.stringify(profileData));
+                    }
+
+                    window.location.href = 'Second.html';
+                } else {
+                    document.getElementById('text_show').textContent = 'Invalid Account.';
+                }
+            } catch (error) {
+                console.error('Error during fetch:', error);
+                document.getElementById('text_show').textContent = 'An error occurred.';
+            }
+        }
+
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+</body>
+</html>

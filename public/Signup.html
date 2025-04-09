@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Kisan Bazaar</title>
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="icon" href="../public/images/log.png" type="image/x-icon">
+    <link rel="stylesheet" href="signup.css">
+    <head>
+
+</head>
+
+<body><div >
+    <!-- Sign Up Box -->
+    <div  id="signupForm">
+        <h1 id="signupHeader" onClick="refreshPage()">Kisan Bazaar</h1>
+        <form id="signupFormForm" onsubmit="signUpUser(event)">
+            <div class="input-group">
+                <label for="name">Name:</label>
+<input type="text" id="name" name="name" required required pattern="^[A-Za-z\s]+$">
+            </div>
+            <div class="input-group">
+                <label for="contactNumber">Contact Number:</label>
+                <input type="text" id="mobile_number" required pattern="^\d{10}$" name="mobile_number" required>
+            </div>
+            <div class="input-group">
+                <label for="emailSignUp">Email:</label>
+                <input type="email" id="email" name="email" required pattern="[a-zA-Z0-9._%+-]+@gmail\.com$" required>
+            </div>
+            <div class="input-group">
+                <label for="passwordSignUp">Password:</label>
+                <div class="password-container">
+                    <input type="password" id="passwordSignUp" name="passwordSignUp" required>
+                    <input type="checkbox" id="showPassword" class="toggle-password" onclick="togglePasswordVisibility()">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <div class="password-container">
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <input type="checkbox" id="showConfirmPassword" class="toggle-password" onclick="toggleConfirmPasswordVisibility()">
+                </div>
+            </div>
+            <input type="submit" id="submit" value="Sign Up">
+            <div id="text_show_signup"></div>
+        </form>
+       <center> <p><a href="/Login.html">Already have an account? Login</a></p></center>
+    </div>
+</div>
+
+    <script>
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('passwordSignUp');
+            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+        }
+
+        // Function to toggle confirm password visibility
+        function toggleConfirmPasswordVisibility() {
+            const confirmPasswordField = document.getElementById('confirmPassword');
+            confirmPasswordField.type = confirmPasswordField.type === 'password' ? 'text' : 'password';
+        }
+
+        async function signUpUser(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const mobile_number = document.getElementById('mobile_number').value;
+            const email = document.getElementById('email').value;
+            const passwordSignUp = document.getElementById('passwordSignUp').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            if (!/^\d{10}$/.test(mobile_number)) {
+                document.getElementById('text_show_signup').textContent = 'Contact number must be exactly 10 digits.';
+                return;
+            }
+            if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(email)) {
+                document.getElementById('text_show_signup').textContent = 'Please enter a valid Gmail address.';
+                return; // Stop the function execution
+            }
+
+            if(name.trim()=='')
+            {
+                document.getElementById('text_show_signup').textContent='name cannot be Empty';
+                return;
+            }
+            // Check password validity
+            if (!passwordPattern.test(passwordSignUp)) {
+                document.getElementById('text_show_signup').textContent = 'Password must be at least 8 characters long, and include upper and lower case letters, numbers, and special characters.';
+                return;
+            }
+
+            // Check if passwords match
+            if (passwordSignUp !== confirmPassword) {
+                document.getElementById('text_show_signup').textContent = 'Passwords do not match.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/users/Signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        name, 
+                        mobile_number, 
+                        email,
+                        passwordSignUp,
+                        confirmPassword 
+                    })
+                });
+
+                const result = await response.text();
+
+                if (response.ok) {
+                    window.location.href = 'Login.html';
+                } else {
+                    document.getElementById('text_show_signup').textContent = result;
+                }
+            } catch (error) {
+                console.error('Error during signup:', error);
+                document.getElementById('text_show_signup').textContent = 'An unexpected error occurred.';
+            }
+        }
+    </script>
+</body>
+</html>

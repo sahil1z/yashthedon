@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan Bazaar - Vegetables</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./vegetables.css">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 class="animated-title">Vegetables</h1>
+        <div class="iconCart">
+            <img src="./cart-icon.png" alt="Cart Icon">
+            <div class="totalQuantity">0</div>
+        </div>
+    </header>
+
+    <div class="listProduct">
+        <!-- Product items 
+         will be dynamically added here -->
+         <div class="listProduct"><div class="item">
+            <img src="capsicum.png" alt="Capsicum">
+            <div class="item-content">
+                <h2>Capsicum</h2>
+                <div class="price">₹550</div>
+                
+                <button onclick="addCart(1)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./iphone.png" alt="Ginger">
+            <div class="item-content">
+                <h2>Ginger</h2>
+                <div class="price">₹150</div>
+            
+                <button onclick="addCart(2)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="laptop.png" alt="Broccoli">
+            <div class="item-content">
+                <h2>Broccoli</h2>
+                <div class="price">₹200</div>
+               
+                <button onclick="addCart(3)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./headphoneEcom.png" alt="Spinach">
+            <div class="item-content">
+                <h2>Spinach</h2>
+                <div class="price">₹300</div>
+                
+                <button onclick="addCart(4)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./potato.png" alt="Potato">
+            <div class="item-content">
+                <h2>Potato</h2>
+                <div class="price">₹400</div>
+             
+                <button onclick="addCart(5)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./onions.png" alt="Onions">
+            <div class="item-content">
+                <h2>Onions</h2>
+                <div class="price">₹600</div>
+                
+                <button onclick="addCart(6)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./mushroom.png" alt="Mushrooms">
+            <div class="item-content">
+                <h2>Mushrooms</h2>
+                <div class="price">₹250</div>
+                
+                <button onclick="addCart(7)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./watch.png" alt="Beetroot">
+            <div class="item-content">
+                <h2>Beetroot</h2>
+                <div class="price">₹180</div>
+                
+                <button onclick="addCart(8)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./cauliflower.png" alt="Cauliflower">
+            <div class="item-content">
+                <h2>Cauliflower</h2>
+                <div class="price">₹180</div>
+               
+                <button onclick="addCart(9)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./carrot.png" alt="Carrot">
+            <div class="item-content">
+                <h2>Carrot</h2>
+                <div class="price">₹120</div>
+          
+                <button onclick="addCart(10)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./tomato.png" alt="Tomato">
+            <div class="item-content">
+                <h2>Tomato</h2>
+                <div class="price">₹130</div>
+                
+                <button onclick="addCart(11)">Add To Cart</button>
+            </div>
+        </div><div class="item">
+            <img src="./cabbage.png" alt="Cabbage">
+            <div class="item-content">
+                <h2>Cabbage</h2>
+                <div class="price">₹100</div>
+                
+                <button onclick="addCart(12)">Add To Cart</button>
+            </div>
+        </div></div>
+    </div>
+</div>
+
+<div class="cart">
+    <h2>Your Cart</h2>
+    <div class="listCart">
+        
+    </div>
+    <div class="buttons">
+        <div class="close">Close</div>
+        <a href="./checkouts.html" class="checkout">Checkout</a>
+    </div>
+</div>
+
+<a href='./addToCart.html' class="previous-button">Previous</a>
+
+<script>
+    let iconCart = document.querySelector('.iconCart');
+    let cart = document.querySelector('.cart'); 
+    let container = document.querySelector('.container');
+    let close = document.querySelector('.close');
+
+    iconCart.addEventListener('click', function() {
+        if (cart.style.right === '-100%') {
+            cart.style.right = '0';
+            container.style.transform = 'translateX(-400px)';
+        } else {
+            cart.style.right = '-100%';
+            container.style.transform = 'translateX(0)';
+        }
+    });
+
+    close.addEventListener('click', function() {
+        cart.style.right = '-100%';
+        container.style.transform = 'translateX(0)';
+    });
+
+    const products = [
+        { id: 1, name: 'Capsicum', price: 550, img: './capsicum.png', label: 'Fresh Vegetable' },
+        { id: 2, name: 'Ginger', price: 150, img: './iphone.png', label: 'Root Spice' },
+        { id: 3, name: 'Broccoli', price: 200, img: './laptop.png', label: 'Fresh Vegetable' },
+        { id: 4, name: 'Spinach', price: 300, img: './headphoneEcom.png', label: 'Leafy Green' },
+        { id: 5, name: 'Potato', price: 400, img: './potato.png', label: 'Root Vegetable' },
+        { id: 6, name: 'Onions', price: 600, img: './onions.png', label: 'Essential Vegetable' },
+        { id: 7, name: 'Mushrooms', price: 250, img: './mushroom.png', label: 'Fungi' },
+        { id: 8, name: 'Beetroot', price: 180, img: './beetroot.png', label: 'Root Vegetable' },
+        { id: 9, name: 'Cauliflower', price: 180, img: './cauliflower.png', label: 'Cruciferous Vegetable' },
+        { id: 10, name: 'Carrot', price: 120, img: './carrot.png', label: 'Root Vegetable' },
+        { id: 11, name: 'Tomato', price: 130, img: './tomato.png', label: 'Fruit Vegetable' },
+        { id: 12, name: 'Cabbage', price: 100, img: './cabbage.png', label: 'Leafy Vegetable' },
+    ];
+
+    let listCart = {};
+
+    function addCart(idProduct) {
+        let productToAdd = products.find(product => product.id === idProduct);
+    
+        if (!listCart[productToAdd.id]) {
+            // If the product isn't in the cart, add it
+            listCart[productToAdd.id] = { ...productToAdd, quantity: 1 };
+        } else {
+            // If it is, increase the quantity
+            listCart[productToAdd.id].quantity++;
+        }
+    
+        saveCartToLocalStorage();
+    addCartToHTML();
+    }
+
+    function saveCartToLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(listCart));
+    }
+    function addCartToHTML() {
+        let listCartHTML = document.querySelector('.listCart');
+        listCartHTML.innerHTML = '';
+    
+        let totalQuantityHTML = document.querySelector('.totalQuantity');
+        let totalPriceHTML = document.querySelector('.totalPrice');
+        let totalQuantity = 0;
+        let totalPrice = 0;
+    
+        const cartItems = Object.values(listCart); // Convert object to array
+    
+        if (cartItems.length > 0) {
+            cartItems.forEach((product, index) => {
+                let newCart = document.createElement('div');
+                newCart.classList.add('item');
+                newCart.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <div class="info">
+                        <div class="name">${product.name}</div>
+                        <div class="price">₹${product.price}/1 product</div>
+                    </div>
+                    <div class="quantity">Quantity: ${product.quantity}</div>
+                    <div class="returnPrice">₹${(product.price * product.quantity).toFixed(2)}</div>
+                    <button class="deleteButton" onclick="deleteProduct('${product.id}')">Delete</button>`; // Use product.id
+                listCartHTML.appendChild(newCart);
+                totalQuantity += product.quantity;
+                totalPrice += (product.price * product.quantity);
+            });
+        } else {
+            listCartHTML.innerHTML = '<div>Your cart is empty.</div>';
+        }
+    
+        totalQuantityHTML.innerText = totalQuantity;
+        totalPriceHTML.innerText = `₹${totalPrice.toFixed(2)}`;
+    }
+    function deleteProduct(idProduct) {
+        delete listCart[idProduct]; // Remove the product using its ID
+        updateLocalStorage(); // Update local storage
+        addCartToHTML(); // Re-render the cart
+    }
+    
+    
+    function updateLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(listCart)); // Update local storage with current cart
+    }
+
+    function changeQuantity(idProduct, type) {
+        switch (type) {
+            case '+':
+                listCart[idProduct].quantity++;
+                break;
+            case '-':
+                listCart[idProduct].quantity--;
+                if (listCart[idProduct].quantity <= 0) {
+                    delete listCart[idProduct];
+                }
+                break;
+            default:
+                break;
+        }
+        addCartToHTML();
+    }
+    function redirectToCheckout() {
+        localStorage.setItem('cart', JSON.stringify(listCart)); // Save current cart to local storage
+        window.location.href = './checkouts.html'; // Redirect to checkout page
+    }    
+
+</script>
+
+</body>
+</html>
